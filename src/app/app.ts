@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { Todos } from "./MyComponents/todos/todos";
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true,  // <-- REQUIRED !!!
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
-  imports: [Todos]
+  imports: [RouterOutlet, RouterLink]
 })
 export class App {
   title = signal('Fruits');

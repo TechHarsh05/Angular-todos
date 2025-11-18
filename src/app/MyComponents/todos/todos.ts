@@ -1,36 +1,37 @@
 import { Component } from '@angular/core';
 import { Todo } from '../../Todo'
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
+import { TodoItem } from "../todo-item/todo-item";
+import { AddTodos } from "../add-todos/add-todos";
 
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.html',
   styleUrl: './todos.css',
-  imports: [NgForOf],
+  imports: [NgForOf, TodoItem, AddTodos, NgIf],
 })
 export class Todos {
+deleteTodo(todo: Todo) {
+  console.log("onClick has been triggerd");
+  const index = this.todos.indexOf(todo);
+  this.todos.splice(index, 1);
+  localStorage.setItem("todos", JSON.stringify(this.todos));
+}
+AddTodo(todo: Todo) {
+  console.log(todo);
+  this.todos.push(todo);
+  localStorage.setItem("todos", JSON.stringify(this.todos));
+}
 
+  localItem: string | null;
   todos:Todo[];
  constructor(){
-  this.todos = [
-    {
-    sno:6,
-    title:"Fruits",
-    desc:"sweet",
-    active:true
-  },
-  {
-    sno:5,
-    title:"Vegetable",
-    desc:"for food",
-    active:true
-  },
-  {
-    sno:9,
-    title:"coffee",
-    desc:"sour",
-    active:false
+  this.localItem = localStorage.getItem("todos");
+  if (this.localItem == null) {
+    this.todos = []
   }
-  ]
+  else{
+    this.todos = JSON.parse(this.localItem)
+  }
  }
 }
